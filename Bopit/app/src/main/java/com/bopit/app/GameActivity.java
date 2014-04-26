@@ -134,15 +134,17 @@ public class GameActivity extends Activity implements SensorEventListener {
         {
             case MotionEvent.ACTION_DOWN:
                 x1 = event.getX();
+                Toast.makeText(this, "x1: "+x1, Toast.LENGTH_SHORT).show ();
                 break;
             case MotionEvent.ACTION_UP:
                 x2 = event.getX();
+                Toast.makeText(this, "x2: "+x2, Toast.LENGTH_SHORT).show ();
                 float deltaX = x2 - x1;
-                if (Math.abs(deltaX) > MIN_DISTANCE)
+                if (deltaX > MIN_DISTANCE)
                 {
                     Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
                 }
-                else
+                else if (deltaX < MIN_DISTANCE)
                 {
                     // consider as something else - a screen tap for example
                     Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
