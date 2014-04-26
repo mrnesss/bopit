@@ -1,38 +1,56 @@
 package com.bopit.app;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 
-
-public class GameActivity extends ActionBarActivity {
+/**
+ * Created by Mario on 4/25/2014.
+ */
+public class GameActivity extends Activity implements SensorEventListener {
+    SensorManager sensorManager;
+    Sensor accel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.game, menu);
-        return true;
+        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
 }
