@@ -5,11 +5,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Random;
 
-public class GameActivity extends ActionBarActivity {
+
+public class GameActivity extends ActionBarActivity implements Runnable {
     Bundle extras;
-    int players = 0;
-    
+    private int players = 0;
+    private int playeds[] = {0,1,2,3,4,5};
+    private int movements = 0;
+    private boolean gameOver = false;
+    private int lastPlayed = 0;
+    private Random r = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,4 +49,15 @@ public class GameActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void run() {
+       if (!gameOver){
+           movements = r.nextInt(1+players)+1;
+           for (int i = 0;i<players;i++){
+
+           }
+       }else{//falta implementar el gameOver
+
+       }
+    }
 }
