@@ -7,6 +7,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,7 +40,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     private float x1,x2;
     private int dificult;
     private RelativeLayout layout;
-    private SoundPoolPlayer sound = new SoundPoolPlayer(this);
+    private MediaPlayer mp;
+    private SoundPool sound;
     static final int MIN_DISTANCE = 150;
     private HashMap<Integer,String> actionsMap;
     private int i;
@@ -50,7 +54,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     Timer timer;
     TimerTask timerTask;
 
-    TextView tvx, tvy, tvz, tvm;
+    //TextView tvx, tvy, tvz, tvm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,8 @@ public class GameActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_game);
 
         movements = new ArrayList<Integer>();
+        sound = new SoundPool(6, AudioManager.STREAM_MUSIC, 0);
+
 
         r = new Random();
         dificult = 2;
@@ -107,15 +113,15 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
         game();
 
-        setContentView(R.layout.activity_game);
+        //setContentView(R.layout.activity_game);
 
         rx = ry = rz = lrx = lry = lrz = 0f;
         capture = true;
 
-        tvx = (TextView)findViewById(R.id.textView);
+        /*tvx = (TextView)findViewById(R.id.textView);
         tvy = (TextView)findViewById(R.id.textView3);
         tvz = (TextView)findViewById(R.id.textView4);
-        tvm = (TextView)findViewById(R.id.textView5);
+        tvm = (TextView)findViewById(R.id.textView5);*/
     }
 
     @Override
@@ -144,25 +150,59 @@ public class GameActivity extends Activity implements SensorEventListener {
         float mrx = x, mry = y, mrz = z;
         if(capture) {
             if(mrx > 15 && mry > 15 && mrz > 9) {
-                //Toast.makeText(this, "Fap", Toast.LENGTH_SHORT).show();
-                tvm.setText("FAP");
+                Toast.makeText(this, "Fap", Toast.LENGTH_SHORT).show();
+                //tvm.setText("FAP");
                 capture = false;
+                timer.cancel();
+                if(movements.get(i) == 2){
+                    i++;
+                    play(movements,i);
+                }else{
+                    completeTask();
+                }
             }
             if(mrx > 7 && mrz > 7 && mrx > mry && mrz > mry) {
-                //Toast.makeText(this, "Roll", Toast.LENGTH_SHORT).show();
-                tvm.setText("ROLL");
+                Toast.makeText(this, "Roll", Toast.LENGTH_SHORT).show();
+                //tvm.setText("ROLL");
                 capture = false;
+                timer.cancel();
+                if(movements.get(i) == 2){
+                    i++;
+                    play(movements,i);
+                }else{
+                    completeTask();
+                }
             }
             if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
-                //Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
-                tvm.setText("TWIST");
+                Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
+                //tvm.setText("TWIST");
                 capture = false;
+                timer.cancel();
+                if(movements.get(i) == 2){
+                    i++;
+                    play(movements,i);
+                }else{
+                    completeTask();
+                }
             }
             if(mry > 9 && mrz > 9 && mry > mrx && mrz > mrx) {
-                //Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
-                tvm.setText("FLIP");
+                Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
+                //tvm.setText("FLIP");
                 capture = false;
+                timer.cancel();
+                if(movements.get(i) == 2){
+                    i++;
+                    play(movements,i);
+                }else{
+                    completeTask();
+                }
             }
+
+            if (movements.size()<= i){
+                i = 0;
+                game();
+            }
+
         }
     }
 
@@ -178,11 +218,12 @@ public class GameActivity extends Activity implements SensorEventListener {
             lry = ry;
         if(rz > lrz)
             lrz = rz;
-        tvx.setText(lrx + "");
+        /*tvx.setText(lrx + "");
         tvy.setText(lry + "");
-        tvz.setText(lrz + "");
-        if(rx < lrx && ry < lry && rz < lrz)
+        tvz.setText(lrz + "");*/
+        if(rx < lrx && ry < lry && rz < lrz) {
             processMotion(lrx, lry, lrz);
+        }
     }
 
     @Override
@@ -262,6 +303,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             timer.scheduleAtFixedRate(timerTask, 0, dificult * 1000);
         }
 
+        capture = true;
         display((Integer) movements.get(i));
 
     }
@@ -269,27 +311,45 @@ public class GameActivity extends Activity implements SensorEventListener {
         switch (move){
             case 0:
                 layout.setBackgroundResource(R.drawable.flip);
-                sound.playShortResource(R.raw.sflip);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.sflip);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 1:
                 layout.setBackgroundResource(R.drawable.shake);
-                sound.playShortResource(R.raw.shake);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.shake);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 2:
                 layout.setBackgroundResource(R.drawable.slide);
-                sound.playShortResource(R.raw.sswipe);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.sswipe);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 3:
                 layout.setBackgroundResource(R.drawable.tap);
-                sound.playShortResource(R.raw.tap);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.tap);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 4:
                 layout.setBackgroundResource(R.drawable.turn);
-                sound.playShortResource(R.raw.turn);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.turn);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 5:
                 layout.setBackgroundResource(R.drawable.twist);
-                sound.playShortResource(R.raw.twist);
+                //sound.playShortResource(R.raw.sflip);
+                //mp = MediaPlayer.create(this, R.raw.twist);
+                //mp.start();
+                //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
         }
 
