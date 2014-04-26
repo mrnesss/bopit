@@ -1,25 +1,21 @@
 package com.bopit.app;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import android.widget.RelativeLayout;
+
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
@@ -49,9 +45,12 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     SensorManager sensorManager;
     Sensor accel;
+    float rx, ry, rz, lrx, lry, lrz;
+    boolean capture;
     Timer timer;
     TimerTask timerTask;
 
+    TextView tvx, tvy, tvz, tvm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +96,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         layout = (RelativeLayout) findViewById(R.id.back);
 
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 
         extras = getIntent().getExtras();
         if(extras != null){
@@ -108,14 +107,23 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
         game();
 
+        setContentView(R.layout.activity_game);
 
+        rx = ry = rz = lrx = lry = lrz = 0f;
+        capture = true;
 
+        tvx = (TextView)findViewById(R.id.textView);
+        tvy = (TextView)findViewById(R.id.textView3);
+        tvz = (TextView)findViewById(R.id.textView4);
+        tvm = (TextView)findViewById(R.id.textView5);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
+        //sensorManager.registerListener(this, rotation, 1500000);
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_UI);
+        //sensorManager.registerListener(this, magnet, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -130,9 +138,51 @@ public class GameActivity extends Activity implements SensorEventListener {
         super.onDestroy();
     }
 
+
+
+    void processMotion(float x, float y, float z) {
+        float mrx = x, mry = y, mrz = z;
+        if(capture) {
+            if(mrx > 15 && mry > 15 && mrz > 9) {
+                //Toast.makeText(this, "Fap", Toast.LENGTH_SHORT).show();
+                tvm.setText("FAP");
+                capture = false;
+            }
+            if(mrx > 7 && mrz > 7 && mrx > mry && mrz > mry) {
+                //Toast.makeText(this, "Roll", Toast.LENGTH_SHORT).show();
+                tvm.setText("ROLL");
+                capture = false;
+            }
+            if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
+                //Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
+                tvm.setText("TWIST");
+                capture = false;
+            }
+            if(mry > 9 && mrz > 9 && mry > mrx && mrz > mrx) {
+                //Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
+                tvm.setText("FLIP");
+                capture = false;
+            }
+        }
+    }
+
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //Log.i("accel", event.values[0] + " " + event.values[1] + " " + event.values[2]);
+        rx = event.values[0];
+        ry = event.values[1];
+        rz = event.values[2];
+
+        if(rx > lrx)
+            lrx = rx;
+        if(ry > lry)
+            lry = ry;
+        if(rz > lrz)
+            lrz = rz;
+        tvx.setText(lrx + "");
+        tvy.setText(lry + "");
+        tvz.setText(lrz + "");
+        if(rx < lrx && ry < lry && rz < lrz)
+            processMotion(lrx, lry, lrz);
     }
 
     @Override
@@ -143,6 +193,12 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
+        Log.i("touch", event.getX() + " " + event.getY());
+        lrx = 0;
+        lry = 0;
+        lrz = 0;
+        capture = true;
+        //return true;
         switch(event.getAction())
         {
             case MotionEvent.ACTION_DOWN:
@@ -221,7 +277,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 break;
             case 2:
                 layout.setBackgroundResource(R.drawable.slide);
-                sound.playShortResource(R.raw.sSwipe);
+                sound.playShortResource(R.raw.sswipe);
                 break;
             case 3:
                 layout.setBackgroundResource(R.drawable.tap);
@@ -284,6 +340,5 @@ public class GameActivity extends Activity implements SensorEventListener {
             lastPlayer  = actualPlayer;
         }
     }
-
 
 }
