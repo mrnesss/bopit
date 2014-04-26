@@ -7,17 +7,26 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
-/**
- * Created by Mario on 4/25/2014.
- */
-public class GameActivity extends Activity implements SensorEventListener {
+import java.util.Random;
+
+
+public class GameActivity extends Activity implements Runnable,SensorEventListener {
+    Bundle extras;
+    private int players = 0;
+    private int actualPlayer = 0;
+    private int playeds[] = {0,1,2,3,4,5};
+    private int movements = 0;
+    private boolean gameOver = false;
+    private int lastPlayed = 0;
+    private Random r = new Random();
     SensorManager sensorManager;
     Sensor accel;
 
-    Bundle extras;
-    int players = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,9 @@ public class GameActivity extends Activity implements SensorEventListener {
         if(extras != null){
            players = extras.getInt("players");
         }
+        Log.e("rP",""+players);
+        //new Handler().
+
 
         setContentView(R.layout.activity_game);
     }
@@ -42,17 +54,41 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onPause() {
+        sensorManager.unregisterListener(this);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        sensorManager.unregisterListener(this);
         super.onDestroy();
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public void run() {
+        Log.e("rP",""+actualPlayer);
+        if (!gameOver) {
+            Context context = getApplicationContext();
+            actualPlayer = r.nextInt(1 + players) + 1;
+            movements = r.nextInt(3 + 9) + 1;
+            CharSequence text = "Hello toast!"+actualPlayer+movements;
+            int duration = Toast.LENGTH_SHORT;
 
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            Log.e("rP",""+actualPlayer);
+            Log.e("rM",""+movements);
+
+
+        } else {//falta implementar el gameOver
+
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        //Log.i("accel", event.values[0] + " " + event.values[1] + " " + event.values[2]);
     }
 
     @Override
@@ -62,6 +98,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        Log.i("touch", event.getX() + " " + event.getY());
+        return true;
     }
 }
