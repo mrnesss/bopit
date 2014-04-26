@@ -16,11 +16,22 @@ public class GameActivity extends Activity implements SensorEventListener {
     SensorManager sensorManager;
     Sensor accel;
 
+    Bundle extras;
+    int players = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        extras = getIntent().getExtras();
+        if(extras != null){
+           players = extras.getInt("players");
+        }
+
+        setContentView(R.layout.activity_game);
     }
 
     @Override
