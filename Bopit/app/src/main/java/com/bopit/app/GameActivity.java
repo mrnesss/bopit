@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -25,6 +26,7 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     private boolean gameOver = false;
     private int lastPlayed = 0;
     private float x1,x2;
+    private RelativeLayout layout = (RelativeLayout) findViewById(R.id.back);
     static final int MIN_DISTANCE = 150;
     private Random r = new Random();
     SensorManager sensorManager;
@@ -123,6 +125,10 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
                 {
                     // consider as something else - a screen tap for example
                     Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else{
+                    Toast.makeText(this, "x1: "+x1, Toast.LENGTH_SHORT).show ();
+
                 }
                 break;
         }
