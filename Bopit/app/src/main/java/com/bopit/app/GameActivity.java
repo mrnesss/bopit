@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import java.util.Random;
 
 
@@ -26,6 +29,9 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     private int movements = 0;
     private boolean gameOver = false;
     private int lastPlayed = 0;
+    private float x1,x2;
+    private RelativeLayout layout = (RelativeLayout) findViewById(R.id.back);
+    static final int MIN_DISTANCE = 150;
     private Random r = new Random();
     SensorManager sensorManager;
     Sensor accel;
@@ -38,6 +44,8 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //SimpleGestureFilter detector = new SimpleGestureFilter(this,this);
 
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
@@ -157,12 +165,41 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event)
+    {
         Log.i("touch", event.getX() + " " + event.getY());
         lrx = 0;
         lry = 0;
         lrz = 0;
         capture = true;
         return true;
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                Toast.makeText(this, "x1: "+x1, Toast.LENGTH_SHORT).show ();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                Toast.makeText(this, "x2: "+x2, Toast.LENGTH_SHORT).show ();
+                float deltaX = x2 - x1;
+                Toast.makeText(this, "delta: "+deltaX, Toast.LENGTH_SHORT).show ();
+                if (deltaX > MIN_DISTANCE)
+                {
+                    Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else if (deltaX < -MIN_DISTANCE)
+                {
+                    // consider as something else - a screen tap for example
+                    Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else{
+                    Toast.makeText(this, "x1: "+x1, Toast.LENGTH_SHORT).show ();
+
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
     }
+
 }
