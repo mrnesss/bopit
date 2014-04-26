@@ -86,8 +86,6 @@ public class GameActivity extends Activity implements SensorEventListener {
                     movements.clear();
 
                     lastPlayer  = actualPlayer;
-                } else {//falta implementar el gameOver
-
                 }
                 handler.post(this);
             }
@@ -159,7 +157,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
     private void completeTask() {
         try {
-
+            //se pasa a la pantalla de termino el juego si todos los jugadores
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
