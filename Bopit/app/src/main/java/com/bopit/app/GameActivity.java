@@ -30,7 +30,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     Bundle extras;
     private int players = 0;
     private int actualPlayer = 0;
-    private int playeds[] = {0,1,2,3,4,5};
+    private int playeds[] = {0,1,2,3,4};
     private int movementsNumber = 0;
     private boolean gameOver = false;
     private int lastPlayer = 0;
@@ -83,6 +83,8 @@ public class GameActivity extends Activity implements SensorEventListener {
                         if (playersArray[i]>0){
                             return;
                         }
+                        i = 0;
+                        movements.clear();
                         play(movements,0);
                     }
                     //se pasa ala pantalla de termino el juego
@@ -99,7 +101,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         actionsMap.put(2,"slide");
         actionsMap.put(3,"tap");
         actionsMap.put(4,"turn");
-        actionsMap.put(5,"twist");
+        //actionsMap.put(5,"twist");
         i = 0;
         layout = (RelativeLayout) findViewById(R.id.back);
 
@@ -156,7 +158,8 @@ public class GameActivity extends Activity implements SensorEventListener {
                 //tvm.setText("FAP");
                 capture = false;
                 //timer.cancel();
-                /*if(movements.get(i) == 1){
+                if(movements.get(i) == 1){
+                timer.cancel();
                     i++;
                     play(movements,i);
                 }else{
@@ -165,14 +168,15 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (movements.size()<= i){
                     i = 0;
                     game();
-                }*/
+                }
             }
             if(mrx > 7 && mrz > 7 && mrx > mry && mrz > mry) {
                 Toast.makeText(this, "Roll", Toast.LENGTH_SHORT).show();
                 //tvm.setText("ROLL");
                 capture = false;
                 //timer.cancel();
-                /*if(movements.get(i) == 4){
+                if(movements.get(i) == 4){
+                    timer.cancel();
                     i++;
                     play(movements,i);
                 }else{
@@ -181,14 +185,15 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (movements.size()<= i){
                     i = 0;
                     game();
-                }*/
+                }
             }
-            if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
+            /*if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
                 Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
                 //tvm.setText("TWIST");
                 capture = false;
                 //timer.cancel();
-                /*if(movements.get(i) == 5){
+                if(movements.get(i) == 5){
+                timer.cancel();
                     i++;
                     play(movements,i);
                 }else{
@@ -197,14 +202,14 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (movements.size()<= i){
                     i = 0;
                     game();
-                }*/
-            }
+                }
+            }*/
             if(mry > 9 && mrz > 9 && mry > mrx && mrz > mrx) {
                 Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
                 //tvm.setText("FLIP");
                 capture = false;
-                //timer.cancel();
-                /*if(movements.get(i) == 0){
+                if(movements.get(i) == 0){
+                    timer.cancel();
                     i++;
                     play(movements,i);
                 }else{
@@ -213,13 +218,8 @@ public class GameActivity extends Activity implements SensorEventListener {
                 if (movements.size()<= i){
                     i = 0;
                     game();
-                }*/
+                }
             }
-
-           /* if (movements.size()<= i){
-                i = 0;
-                game();
-            }*/
 
         }
     }
@@ -322,7 +322,11 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
 
         capture = true;
-        display((Integer) movements.get(i));
+        if(movements.size()<i){
+            completeTask();
+        }else{
+            display((Integer) movements.get(i));
+        }
 
     }
 
@@ -371,14 +375,14 @@ public class GameActivity extends Activity implements SensorEventListener {
                 //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
-            case 5:
+            /*case 5:
                 layout.setBackgroundResource(R.drawable.twist);
                 //sound.playShortResource(R.raw.sflip);
                 mp = MediaPlayer.create(appContext, R.raw.twist);
                 mp.start();
                 //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
-                break;
+                break;*/
         }
 
 
@@ -394,6 +398,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 }
 
                 i = 0;
+                movements.clear();
                 play(movements,0);
 
             }
@@ -417,7 +422,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 actualPlayer = r.nextInt(1 + players+1);
             }
 
-            movementsNumber = r.nextInt(3 + 9);
+            movementsNumber = r.nextInt(3 + 9) + 1;
 
             for (int i = 0;i<movementsNumber;i++){
                 movements.add(playeds[r.nextInt(0+playeds.length)]);
