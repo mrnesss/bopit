@@ -6,63 +6,85 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.bopit.app.MainActivity">
+    tools:context="com.bopit.app.MainActivity"
+    android:background="@drawable/tittle">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Players"
-        android:id="@+id/players"
-        android:layout_marginTop="32dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/P1"
-        android:layout_below="@+id/players"
-        android:layout_toLeftOf="@+id/players"
-        android:layout_marginTop="47dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:focusable="false" />
+        android:layout_marginTop="0dp"
+        android:id="@+id/ll1">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/P2"
-        android:layout_alignTop="@+id/P1"
-        android:layout_toRightOf="@+id/players"
-        android:layout_alignBottom="@+id/P1"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/P1"
+            android:focusable="false"
+            android:src="@drawable/player1"
+            android:layout_below="@+id/players"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="true"
+            android:padding="20dp"
+            android:scaleType="fitCenter"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/P3"
-        android:layout_below="@+id/P1"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/P2"
+            android:layout_alignTop="@+id/P1"
+            android:layout_toRightOf="@+id/players"
+            android:layout_alignBottom="@+id/P1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/player2"
+            android:adjustViewBounds="true"
+            android:padding="20dp"
+            android:scaleType="fitCenter"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/ll1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="31dp"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="0dp">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/P4"
-        android:layout_alignTop="@+id/P3"
-        android:layout_alignLeft="@+id/P2"
-        android:layout_alignStart="@+id/P2" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/P3"
+            android:src="@drawable/player3"
+            android:layout_below="@+id/P1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:adjustViewBounds="true"
+            android:padding="20dp"
+            android:scaleType="fitCenter"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GAME!"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/gameButton" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/P4"
+            android:layout_alignTop="@+id/P3"
+            android:layout_alignLeft="@+id/P2"
+            android:layout_alignStart="@+id/P2"
+            android:src="@drawable/player4"
+            android:adjustViewBounds="true"
+            android:padding="20dp"
+            android:scaleType="fitCenter"/>
+
+        </LinearLayout>
 
 </RelativeLayout>
