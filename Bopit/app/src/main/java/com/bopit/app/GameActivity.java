@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+
 import java.util.Random;
 
 
@@ -23,6 +24,8 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     private int movements = 0;
     private boolean gameOver = false;
     private int lastPlayed = 0;
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
     private Random r = new Random();
     SensorManager sensorManager;
     Sensor accel;
@@ -31,6 +34,8 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //SimpleGestureFilter detector = new SimpleGestureFilter(this,this);
 
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -97,8 +102,30 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.i("touch", event.getX() + " " + event.getY());
-        return true;
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float deltaX = x2 - x1;
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else
+                {
+                    // consider as something else - a screen tap for example
+                    Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
     }
+
+
+
 }
