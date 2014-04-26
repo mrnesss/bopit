@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +41,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private float x1,x2;
     private int dificult;
     private RelativeLayout layout;
+    private SoundPoolPlayer sound = new SoundPoolPlayer(this);
     static final int MIN_DISTANCE = 150;
     private HashMap<Integer,String> actionsMap;
     private int i;
@@ -56,6 +59,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         setContentView(R.layout.activity_game);
 
         movements = new ArrayList<Integer>();
+
         r = new Random();
         dificult = 2;
         timer = new Timer();
@@ -209,23 +213,31 @@ public class GameActivity extends Activity implements SensorEventListener {
         switch (move){
             case 0:
                 layout.setBackgroundResource(R.drawable.flip);
+                sound.playShortResource(R.raw.sflip);
                 break;
             case 1:
                 layout.setBackgroundResource(R.drawable.shake);
+                sound.playShortResource(R.raw.shake);
                 break;
             case 2:
                 layout.setBackgroundResource(R.drawable.slide);
+                sound.playShortResource(R.raw.sSwipe);
                 break;
             case 3:
                 layout.setBackgroundResource(R.drawable.tap);
+                sound.playShortResource(R.raw.tap);
                 break;
             case 4:
                 layout.setBackgroundResource(R.drawable.turn);
+                sound.playShortResource(R.raw.turn);
                 break;
             case 5:
                 layout.setBackgroundResource(R.drawable.twist);
+                sound.playShortResource(R.raw.twist);
                 break;
         }
+
+
     }
     private void completeTask() {
         try {
