@@ -2,6 +2,7 @@ package com.bopit.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -59,6 +60,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_game);
 
         movements = new ArrayList<Integer>();
@@ -153,55 +155,71 @@ public class GameActivity extends Activity implements SensorEventListener {
                 Toast.makeText(this, "Fap", Toast.LENGTH_SHORT).show();
                 //tvm.setText("FAP");
                 capture = false;
-                timer.cancel();
-                if(movements.get(i) == 2){
+                //timer.cancel();
+                /*if(movements.get(i) == 1){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
+                if (movements.size()<= i){
+                    i = 0;
+                    game();
+                }*/
             }
             if(mrx > 7 && mrz > 7 && mrx > mry && mrz > mry) {
                 Toast.makeText(this, "Roll", Toast.LENGTH_SHORT).show();
                 //tvm.setText("ROLL");
                 capture = false;
-                timer.cancel();
-                if(movements.get(i) == 2){
+                //timer.cancel();
+                /*if(movements.get(i) == 4){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
+                if (movements.size()<= i){
+                    i = 0;
+                    game();
+                }*/
             }
             if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
                 Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
                 //tvm.setText("TWIST");
                 capture = false;
-                timer.cancel();
-                if(movements.get(i) == 2){
+                //timer.cancel();
+                /*if(movements.get(i) == 5){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
+                if (movements.size()<= i){
+                    i = 0;
+                    game();
+                }*/
             }
             if(mry > 9 && mrz > 9 && mry > mrx && mrz > mrx) {
                 Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
                 //tvm.setText("FLIP");
                 capture = false;
-                timer.cancel();
-                if(movements.get(i) == 2){
+                //timer.cancel();
+                /*if(movements.get(i) == 0){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
+                if (movements.size()<= i){
+                    i = 0;
+                    game();
+                }*/
             }
 
-            if (movements.size()<= i){
+           /* if (movements.size()<= i){
                 i = 0;
                 game();
-            }
+            }*/
 
         }
     }
@@ -307,54 +325,65 @@ public class GameActivity extends Activity implements SensorEventListener {
         display((Integer) movements.get(i));
 
     }
+
     private void display(int move){
+
+        Context appContext = getApplicationContext();
+
         switch (move){
             case 0:
                 layout.setBackgroundResource(R.drawable.flip);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.sflip);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.sflip);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 1:
                 layout.setBackgroundResource(R.drawable.shake);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.shake);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.shake);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 2:
                 layout.setBackgroundResource(R.drawable.slide);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.sswipe);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.sswipe);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 3:
                 layout.setBackgroundResource(R.drawable.tap);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.tap);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.tap);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 4:
                 layout.setBackgroundResource(R.drawable.turn);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.turn);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.turn);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
             case 5:
                 layout.setBackgroundResource(R.drawable.twist);
                 //sound.playShortResource(R.raw.sflip);
-                //mp = MediaPlayer.create(this, R.raw.twist);
-                //mp.start();
+                mp = MediaPlayer.create(appContext, R.raw.twist);
+                mp.start();
+                //mp.release();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
         }
 
 
     }
+
     private void completeTask() {
         try {
             //se pasa a la pantalla de termino el juego si todos los jugadores
@@ -374,6 +403,7 @@ public class GameActivity extends Activity implements SensorEventListener {
             e.printStackTrace();
         }
     }
+
     public void game(){
         Log.w("swag","swag");
         if (!gameOver) {
