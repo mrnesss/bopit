@@ -1,5 +1,6 @@
 package com.bopit.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.Button;
 
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
     private int players = 0;
     private ImageButton player1;
     private ImageButton player2;
@@ -57,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        intent = new Intent(this,GameActivity.class);
         intent = new Intent(this, GameActivity.class);
         player1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,21 +69,21 @@ public class MainActivity extends ActionBarActivity {
         player2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeActivity(1,intent);
+                changeActivity(2, intent);
 
             }
         });
         player3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeActivity(1,intent);
+                changeActivity(3, intent);
 
             }
         });
         player4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeActivity(1,intent);
+                changeActivity(4, intent);
 
             }
         });
