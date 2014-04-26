@@ -4,28 +4,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 
-public class MainActivity extends ActionBarActivity {
+public class GameActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        Button bGame = (Button)findViewById(R.id.gameButton);
-        try {
-            bGame.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Intent intent = ();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setContentView(R.layout.activity_game);
     }
 
 
@@ -33,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.game, menu);
         return true;
     }
 
