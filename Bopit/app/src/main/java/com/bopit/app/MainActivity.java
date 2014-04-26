@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.Button;
 
 
 
@@ -28,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
         player2 = (ImageButton) findViewById(R.id.P2);
         player3 = (ImageButton) findViewById(R.id.P3);
         player4 = (ImageButton) findViewById(R.id.P4);
-        //intent = new Intent(this,);
+        intent = new Intent(this,GameActivity.class);
         setContentView(R.layout.activity_main);
     }
 
@@ -55,29 +56,37 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
+        intent = new Intent(this,GameActivity.class);
         player1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                changeActivity(1,intent);
             }
         });
         player2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                changeActivity(1,intent);
 
             }
         });
         player3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                changeActivity(1,intent);
 
             }
         });
         player4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                changeActivity(1,intent);
 
             }
         });
+    }
+    private void changeActivity(int player,Intent intent){
+        intent.putExtra("players",player);
+        startActivity(intent);
     }
 }

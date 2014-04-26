@@ -1,4 +1,4 @@
-package com.myapplication3.bopit;
+package com.bopit.app;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -6,12 +6,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class GameActivity extends ActionBarActivity {
+    Bundle extras;
+    int players = 0;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        extras = getIntent().getExtras();
+        if(extras != null){
+           players = extras.getInt("players");
+        }
+
+        setContentView(R.layout.activity_game);
     }
 
 
@@ -19,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.game, menu);
         return true;
     }
 
