@@ -29,7 +29,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     Bundle extras;
     private int players = 0;
     private int actualPlayer = 0;
-    private int playeds[] = {0,1,2,3,4,5};
+    private int playeds[] = {0,1,2,3,4};
     private int movementsNumber = 0;
     private boolean gameOver = false;
     private int lastPlayer = 0;
@@ -97,7 +97,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         actionsMap.put(2,"slide");
         actionsMap.put(3,"tap");
         actionsMap.put(4,"turn");
-        actionsMap.put(5,"twist");
+        //actionsMap.put(5,"twist");
         i = 0;
         layout = (RelativeLayout) findViewById(R.id.back);
 
@@ -154,7 +154,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 //tvm.setText("FAP");
                 capture = false;
                 timer.cancel();
-                if(movements.get(i) == 2){
+                if(movements.get(i) == 1){
                     i++;
                     play(movements,i);
                 }else{
@@ -166,31 +166,31 @@ public class GameActivity extends Activity implements SensorEventListener {
                 //tvm.setText("ROLL");
                 capture = false;
                 timer.cancel();
-                if(movements.get(i) == 2){
+                if(movements.get(i) == 4){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
             }
-            if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
+            /*if(mrx > 9 && mry > 9 && mrz < 12 && mrx > mrz && mry > mrz) {
                 Toast.makeText(this, "Twist", Toast.LENGTH_SHORT).show();
                 //tvm.setText("TWIST");
                 capture = false;
                 timer.cancel();
-                if(movements.get(i) == 2){
+                if(movements.get(i) == 5){
                     i++;
                     play(movements,i);
                 }else{
                     completeTask();
                 }
-            }
+            }*/
             if(mry > 9 && mrz > 9 && mry > mrx && mrz > mrx) {
                 Toast.makeText(this, "Flip", Toast.LENGTH_SHORT).show();
                 //tvm.setText("FLIP");
                 capture = false;
                 timer.cancel();
-                if(movements.get(i) == 2){
+                if(movements.get(i) == 0){
                     i++;
                     play(movements,i);
                 }else{
@@ -344,13 +344,13 @@ public class GameActivity extends Activity implements SensorEventListener {
                 //mp.start();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
                 break;
-            case 5:
+            /*case 5:
                 layout.setBackgroundResource(R.drawable.twist);
                 //sound.playShortResource(R.raw.sflip);
                 //mp = MediaPlayer.create(this, R.raw.twist);
                 //mp.start();
                 //sound.play(R.raw.sflip, 0.99f, 0.99f, 0, 0, 1);
-                break;
+                break;*/
         }
 
 
@@ -387,7 +387,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 actualPlayer = r.nextInt(1 + players+1);
             }
 
-            movementsNumber = r.nextInt(3 + 9);
+            movementsNumber = r.nextInt(3 + 9) + 1;
 
             for (int i = 0;i<movementsNumber;i++){
                 movements.add(playeds[r.nextInt(0+playeds.length)]);
