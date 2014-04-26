@@ -25,12 +25,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         player1 = (ImageButton) findViewById(R.id.P1);
         player2 = (ImageButton) findViewById(R.id.P2);
         player3 = (ImageButton) findViewById(R.id.P3);
         player4 = (ImageButton) findViewById(R.id.P4);
         intent = new Intent(this,GameActivity.class);
-        setContentView(R.layout.activity_main);
     }
 
 
@@ -56,7 +56,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
-        intent = new Intent(this,GameActivity.class);
+        super.onResume();
+        intent = new Intent(this, GameActivity.class);
         player1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

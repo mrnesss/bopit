@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -42,17 +43,19 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onPause() {
+        sensorManager.unregisterListener(this);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        sensorManager.unregisterListener(this);
         super.onDestroy();
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
+        //Log.i("accel", event.values[0] + " " + event.values[1] + " " + event.values[2]);
     }
 
     @Override
@@ -62,6 +65,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        Log.i("touch", event.getX() + " " + event.getY());
+        return true;
     }
 }
