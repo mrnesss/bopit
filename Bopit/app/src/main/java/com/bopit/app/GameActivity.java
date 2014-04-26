@@ -32,6 +32,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     private Random r;
     private ArrayList<Integer> movements;
     private int playersArray[] = {0,0,0,0};
+    private int lastPlayed = 0;
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
     SensorManager sensorManager;
     Sensor accel;
     Timer timer;
@@ -80,7 +83,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                         movements.add(playeds[r.nextInt(0+playeds.length)]);
                     }
                     play(actualPlayer,movements);
-
+                    movements.clear();
 
                     lastPlayer  = actualPlayer;
                 } else {//falta implementar el gameOver
@@ -125,12 +128,39 @@ public class GameActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.i("touch", event.getX() + " " + event.getY());
-        return true;
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float deltaX = x2 - x1;
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else
+                {
+                    // consider as something else - a screen tap for example
+                    Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 
     public void play(int actualPlayer,ArrayList movementsNumber){
 
     }
+    private void completeTask() {
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
