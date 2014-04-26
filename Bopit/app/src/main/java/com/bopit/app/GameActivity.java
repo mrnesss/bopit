@@ -25,7 +25,7 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
     private boolean gameOver = false;
     private int lastPlayed = 0;
     private float x1,x2;
-    static final int MIN_DISTANCE = 200;
+    static final int MIN_DISTANCE = 150;
     private Random r = new Random();
     SensorManager sensorManager;
     Sensor accel;
@@ -119,7 +119,7 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
                 {
                     Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
                 }
-                else if (deltaX < MIN_DISTANCE)
+                else if (deltaX < -MIN_DISTANCE)
                 {
                     // consider as something else - a screen tap for example
                     Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
