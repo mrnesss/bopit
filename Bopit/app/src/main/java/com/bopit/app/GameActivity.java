@@ -34,7 +34,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     private int playersArray[] = {0,0,0,0};
     private int lastPlayed = 0;
     private float x1,x2;
-    static final int MIN_DISTANCE = 150;
+    static final int MIN_DISTANCE = 200;
     SensorManager sensorManager;
     Sensor accel;
     Timer timer;
@@ -138,6 +138,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 x2 = event.getX();
                 Toast.makeText(this, "x2: "+x2, Toast.LENGTH_SHORT).show ();
                 float deltaX = x2 - x1;
+                Toast.makeText(this, "delta: "+deltaX, Toast.LENGTH_SHORT).show ();
                 if (deltaX > MIN_DISTANCE)
                 {
                     Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
