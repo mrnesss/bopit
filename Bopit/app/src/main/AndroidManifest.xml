@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.bopit.app.GameActivity"
-            android:label="@string/title_activity_game" >
+            android:name=".GameActivity">
+
         </activity>
     </application>
 

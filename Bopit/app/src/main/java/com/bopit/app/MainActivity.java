@@ -59,6 +59,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         intent = new Intent(this,GameActivity.class);
+        intent = new Intent(this, GameActivity.class);
         player1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

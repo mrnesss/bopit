@@ -54,11 +54,13 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
 
     @Override
     protected void onPause() {
+        sensorManager.unregisterListener(this);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        sensorManager.unregisterListener(this);
         super.onDestroy();
     }
 
@@ -86,7 +88,7 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
+        //Log.i("accel", event.values[0] + " " + event.values[1] + " " + event.values[2]);
     }
 
     @Override
@@ -96,6 +98,7 @@ public class GameActivity extends Activity implements Runnable,SensorEventListen
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        Log.i("touch", event.getX() + " " + event.getY());
+        return true;
     }
 }
