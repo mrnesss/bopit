@@ -15,7 +15,9 @@ import android.view.MotionEvent;
  */
 public class GameActivity extends Activity implements SensorEventListener {
     SensorManager sensorManager;
-    Sensor accel;
+    Sensor rotation;
+
+    float rx, ry, rz, lrx, lry, lrz;
 
     Bundle extras;
     int players = 0;
@@ -25,7 +27,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         super.onCreate(savedInstanceState);
 
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-        accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        rotation = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
 
         extras = getIntent().getExtras();
         if(extras != null){
@@ -38,7 +40,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, rotation, 1500000);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        //Log.i("accel", event.values[0] + " " + event.values[1] + " " + event.values[2]);
+        Log.i("accel", event.values[0] + "\t" + event.values[1] + "\t" + event.values[2]);
     }
 
     @Override
