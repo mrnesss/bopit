@@ -34,7 +34,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     private int playersArray[] = {0,0,0,0};
     private int lastPlayed = 0;
     private float x1,x2;
-    static final int MIN_DISTANCE = 200;
+    private int dificult;
+    static final int MIN_DISTANCE = 150;
+
     SensorManager sensorManager;
     Sensor accel;
     Timer timer;
@@ -49,7 +51,9 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         movements = new ArrayList<Integer>();
         r = new Random();
-        timer = new Timer();
+        dificult = 2;
+        timer = new Timer(true);
+        timer.scheduleAtFixedRate(timerTask, 0, dificult*1000);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
         accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -143,7 +147,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 {
                     Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
                 }
-                else if (deltaX < MIN_DISTANCE)
+                else if (deltaX < -MIN_DISTANCE)
                 {
                     // consider as something else - a screen tap for example
                     Toast.makeText(this, "right2left swipe", Toast.LENGTH_SHORT).show ();
@@ -153,13 +157,32 @@ public class GameActivity extends Activity implements SensorEventListener {
         return super.onTouchEvent(event);
     }
 
-    public void play(int actualPlayer,ArrayList movementsNumber){
+    public void play(int actualPlayer,ArrayList movements){
+
+        for (int i=0;i<movements.size();i++){
+            timer = new Timer(true);
+            timer.scheduleAtFixedRate(timerTask, 0, dificult*1000);
+            display((Integer) movements.get(i));
+            timer.cancel();
+        }
+        //el jugador sigue jugando
 
     }
+    private void display(int move){
+
+    }
+
     private void completeTask() {
         try {
             //se pasa a la pantalla de termino el juego si todos los jugadores
-            
+            playersArray[actualPlayer] = 0;
+            for (int i=0;i<playersArray.length;i++){
+                if (playersArray[i]>0){
+                    return;
+                }
+            }
+            //se pasa ala pantalla de termino el juego
+
         } catch (Exception e) {
             e.printStackTrace();
         }
